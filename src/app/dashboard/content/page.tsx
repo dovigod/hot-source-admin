@@ -1,17 +1,24 @@
-import * as stylex from "@stylexjs/stylex";
+import { Content } from "@/component/Content";
+import { DragNDrop } from "@/component/DragNDrop";
 
-const styles = stylex.create({
-  base: {
-    fontSize: "100px",
-    color: "Blue",
-  },
+const generateDummyContent = (index: number) => {
+  const coverImg =
+    "https://t4.ftcdn.net/jpg/07/39/45/67/360_F_739456755_cN2rQC9mmKTpwrZHENYcMS2EQ4XNKFaU.webp";
+  const id = `rand_id_${index}`;
+  const name = `hot-source-content-${index}`;
+  return {
+    id,
+    name,
+    coverImg,
+    index,
+  };
+};
 
-  fons: {
-    fontSize: 100,
-    color: "red",
-  },
-});
 export default function ContentPage() {
   // getContentList
-  return <div {...stylex.props(styles.fons)}>dawd</div>;
+  const CNT = 5;
+  const dummy = new Array(CNT)
+    .fill(0)
+    .map((_, idx) => generateDummyContent(idx));
+  return <DragNDrop dataId="Content" data={dummy} render={Content} />;
 }
