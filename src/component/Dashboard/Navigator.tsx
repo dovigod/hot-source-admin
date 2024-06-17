@@ -16,7 +16,7 @@ export function Navigator() {
   // hack to get dynamic route informations to get page description
   for (const key of Object.keys(pageParams)) {
     if (typeof pageParams[key] === "string") {
-      if (pathname.includes(pageParams[key])) {
+      if (pathname.includes(pageParams[key] as string)) {
         const targetIdx = pathSegments.indexOf(pageParams[key]);
         pathSegments[targetIdx] = key;
       }
