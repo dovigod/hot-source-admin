@@ -32,7 +32,8 @@ export const contentPageStyle = stylex.create({
 
 })
 
-export const itemStyle = stylex.create({
+
+export const itemEditableStyle = stylex.create({
   container: {
     width: '100%',
     backgroundColor: {
@@ -43,31 +44,45 @@ export const itemStyle = stylex.create({
     //   default: 'translateX(0px)',
     //   ':hover': 'translateX(100px)'
     // },
-    // transform: pseudo.contentItemTransform,
-    // transform: {
-    //   default: 'translateX(0px)',
-    //   ':hover': 'translateX(100px)'
-    // },
+    transform: {
+      default: 'translateX(0px)',
+      ':hover': 'translateX(100px)'
+    },
     transition: transition.t_2,
     position: 'relative',
     padding: '18px 32px',
     borderBottom: border.basic,
     cursor: 'pointer',
   },
-  // actionIndicator: {
-  //   position: 'absolute',
-  //   top: '0px',
-  //   width: '100px',
-  //   left: '-100px',
-  //   height: '100%',
-  //   color: 'black',
-  //   backgroundColor: color.primary,
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   justifyContent: 'center'
-  // },
+  actionIndicator: {
+    position: 'absolute',
+    top: '0px',
+    width: '100px',
+    left: '-100px',
+    height: '100%',
+    color: 'black',
+    backgroundColor: color.primary,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+})
+export const itemStyle = stylex.create({
+  container: {
+    width: '100%',
+    backgroundColor: {
+      default: color.white,
+      ':hover': color.shadedWhiteF2
+    },
+    transition: transition.t_2,
+    position: 'relative',
+    padding: '18px 32px',
+    borderBottom: border.basic,
+    cursor: 'pointer',
+  },
   text: {
     fontSize: fontSize.mediumd2,
+    userSelect: 'none'
   },
   index: (width) => ({
     width,
@@ -84,5 +99,6 @@ export const itemStyle = stylex.create({
     width: '100%',
     height: '100%',
     borderRadius: '4px',
+    userSelect: 'none'
   }
 })

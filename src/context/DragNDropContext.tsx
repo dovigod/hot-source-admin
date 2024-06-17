@@ -31,7 +31,7 @@ export const DragNDropContext = createContext<DragNDropContext | null>(null);
 
 export const DragNDropProvider = ({ dataId, children, data }: Props) => {
   const [dataList, setDataList] = useState<OrderedData[] | undefined>(
-    data?.sort((a, b) => a.index - b.index)
+    data?.sort((a, b) => b.index - a.index)
   );
   const currentItemId = useRef<string | null>(null);
 

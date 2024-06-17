@@ -20,7 +20,7 @@ export function withDragNDrop(Origin: ForwardRefExoticComponent<any>) {
     if (!context) {
       throw new Error("DragNDropContext not defined");
     }
-
+    let current: HTMLLIElement | null = null;
     const { data, dataId, currentItemId, setData } = context;
     const ref = useRef<HTMLElement>(null);
     const itemId = props.id;
@@ -43,11 +43,36 @@ export function withDragNDrop(Origin: ForwardRefExoticComponent<any>) {
       currentItemId.current = props.id;
     }
     function onDragEnd() {
+      if (current) {
+        const rootNode = current.parentNode;
+
+        for (const node of rootNode!.children) {
+          (node as any).style.borderTop = "";
+        }
+      }
+
       if (currentItemId.current) {
         swap(currentItemId.current, itemId);
       }
     }
-    function onDragOver() {
+    function onDragOver(e: any) {
+      e.preventDefault();
+      let parent = e.target;
+
+      if (current) {
+        const rootNode = current.parentNode;
+
+        for (const node of rootNode!.children) {
+          (node as any).style.borderTop = "";
+        }
+      }
+
+      while (parent.tagName !== "LI") {
+        parent = parent.offsetParent;
+      }
+
+      parent.style.borderTop = "2px solid #C80036";
+      current = parent;
       currentItemId.current = itemId;
     }
 

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  ReactNode,
-  useContext,
-  type Component,
-  type PropsWithChildren,
-} from "react";
+import { useContext, type PropsWithChildren } from "react";
 import {
   DragNDropContext,
   DragNDropProvider,
@@ -23,7 +18,6 @@ interface DragNDropContainerProps extends PropsWithChildren {
 export function DragNDrop({
   dataId,
   data,
-  children,
   render,
   ...props
 }: DragNDropContainerProps) {
@@ -47,7 +41,7 @@ function View({ Component }: { Component: any }) {
   return (
     data &&
     data
-      .sort((a, b) => a.index - b.index)
-      .map((d) => <Component draggable key={`Drag-n-drop-${d.id}`} {...d} />)
+      .sort((a, b) => b.index - a.index)
+      .map((d) => <Component editable key={`Drag-n-drop-${d.id}`} {...d} />)
   );
 }

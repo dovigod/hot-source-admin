@@ -1,4 +1,6 @@
+import { FloatingButton } from "@/component/Common/FloatingButton";
 import { MeaningFul } from "@/component/Common/Meaningful";
+import { Pagnation } from "@/component/Common/Pagnation";
 import { Content } from "@/component/Content";
 import { uniform } from "@/styles";
 import { layout, layoutStyle } from "@/styles/common";
@@ -27,9 +29,6 @@ export default function ContentPage() {
   const dummy = new Array(CNT)
     .fill(0)
     .map((_, idx) => generateDummyContent(idx));
-  // return dummy
-  //   .sort((a, b) => a.index - b.index)
-  //   .map((content) => <Content key={`content-${content.id}`} {...content} />);
 
   return (
     <div
@@ -52,14 +51,15 @@ export default function ContentPage() {
         </div>
         <ul {...uniform(contentPageStyle.contentsField)}>
           {dummy
-            .sort((a, b) => a.index - b.index)
+            .sort((a, b) => b.index - a.index)
             .map((content) => (
               <Content key={`content-${content.id}`} {...content} />
             ))}
         </ul>
       </MeaningFul>
 
-      {/* pagenation */}
+      <Pagnation length={5} />
+      <FloatingButton />
     </div>
   );
 }

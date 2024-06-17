@@ -58,17 +58,23 @@ export const navigationStyle = stylex.create({
     textDecoration: {
       default: 'none',
       ':hover': 'underline'
-    }
+    },
+    maxWidth: '180px',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'elipsis'
   },
   description: {
     color: color.secondary,
     fontSize: fontSize.smallu2,
+    whiteSpace: 'nowrap'
   },
   comment: {
     color: color.secondary,
     opacity: '0.8',
     fontSize: fontSize.small,
-    marginTop: '4px'
+    marginTop: '4px',
+    whiteSpace: 'nowrap'
   },
   floating: {
     position: 'fixed',

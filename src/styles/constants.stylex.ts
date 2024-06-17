@@ -6,7 +6,7 @@ export const styleConstant = stylex.defineVars({
 
 
 export const color = stylex.defineVars({
-  primary: '#C80036',
+  primary: '#C70136',
   secondary: '#0C1844',
   supporting: '#FF6969',
   tail: '#FFF5E1',
@@ -55,9 +55,15 @@ export const border = stylex.defineVars({
   black: '1px solid rgba(0,0,0, 0.05)',
   blackW2: '2px solid rgba(0,0,0, 0.05)',
   blackW3: '3px solid rgba(0,0,0, 0.05)',
+  blackS: '1px solid rgba(0,0,0, 0.3)',
+  blackSW2: '2px solid rgba(0,0,0, 0.3)',
+  blackSW3: '3px solid rgba(0,0,0, 0.3)',
   secondary: `1px solid rgba(12,24,68, 1)`,
   secondaryW2: `2px solid rgba(12,24,68, 1)`,
   secondaryW3: `3px solid rgba(12,24,68, 1)`,
+  supporting: `1px solid #FF6969`,
+  supportingW2: `2px solid #FF6969`,
+  supportingW3: `3px solid #FF6969`,
 })
 
 export const pseudo = stylex.defineVars({
