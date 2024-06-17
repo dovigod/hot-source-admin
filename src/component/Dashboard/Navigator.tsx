@@ -17,7 +17,7 @@ export function Navigator() {
   for (const key of Object.keys(pageParams)) {
     if (typeof pageParams[key] === "string") {
       if (pathname.includes(pageParams[key] as string)) {
-        const targetIdx = pathSegments.indexOf(pageParams[key]);
+        const targetIdx = pathSegments.indexOf(pageParams[key] as string);
         pathSegments[targetIdx] = key;
       }
     }

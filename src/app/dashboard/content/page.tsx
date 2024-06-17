@@ -5,6 +5,7 @@ import { Content } from "@/component/Content";
 import { uniform } from "@/styles";
 import { layout, layoutStyle } from "@/styles/common";
 import { contentPageStyle, itemStyle } from "@/styles/contentPage";
+import { Suspense } from "react";
 
 const generateDummyContent = (index: number) => {
   const coverImg =
@@ -57,8 +58,9 @@ export default function ContentPage() {
             ))}
         </ul>
       </MeaningFul>
-
-      <Pagnation length={5} />
+      <Suspense fallback={null}>
+        <Pagnation length={5} />
+      </Suspense>
       <FloatingButton />
     </div>
   );
