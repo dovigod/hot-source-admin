@@ -71,7 +71,7 @@ export const Data = forwardRef(
       <div {...uniform(layout.cflex11, dataStyle.container)}>
         {label && (
           <span {...uniform(dataStyle.label)}>
-            {label}{" "}
+            {label}
             {comment && (
               <button
                 {...uniform(layout.flex55, dataStyle.commentButton)}

@@ -21,23 +21,33 @@ export function withDragNDrop(Origin: ForwardRefExoticComponent<any>) {
       throw new Error("DragNDropContext not defined");
     }
     let current: HTMLLIElement | null = null;
-    const { data, dataId, currentItemId, setData } = context;
+    const { data, dataId, currentItemId, targetItemId, setData } = context;
     const ref = useRef<HTMLElement>(null);
     const itemId = props.id;
 
     function swap(id1: string, id2: string) {
-      const id1Idx = data!.findIndex((val) => val.id === id1);
-      const id2Idx = data!.findIndex((val) => val.id === id2);
+      if (!id1 || !id2) {
+        return;
+      }
+      if (!data) {
+        return;
+      }
+      currentItemId.current = null;
+      targetItemId.current = null;
 
-      setData((current) => {
-        if (!current) {
-          return current;
-        }
-        const dup = [...current];
-        dup[id1Idx].index = id2Idx;
-        dup[id2Idx].index = id1Idx;
-        return dup;
-      });
+      const id1Obj = data!.find((val) => val.id === id1);
+      const id2Obj = data!.find((val) => val.id === id2);
+
+      if (!id1Obj || !id2Obj) {
+        return;
+      }
+
+      const newList = [...data];
+      const tmp = id1Obj?.index;
+      id1Obj.index = id2Obj?.index;
+      id2Obj.index = tmp;
+
+      setData(newList);
     }
     function onDragStart() {
       currentItemId.current = props.id;
@@ -51,8 +61,8 @@ export function withDragNDrop(Origin: ForwardRefExoticComponent<any>) {
         }
       }
 
-      if (currentItemId.current) {
-        swap(currentItemId.current, itemId);
+      if (currentItemId.current && targetItemId.current) {
+        swap(currentItemId.current, targetItemId.current);
       }
     }
     function onDragOver(e: any) {
@@ -73,7 +83,7 @@ export function withDragNDrop(Origin: ForwardRefExoticComponent<any>) {
 
       parent.style.borderTop = "2px solid #C80036";
       current = parent;
-      currentItemId.current = itemId;
+      targetItemId.current = itemId;
     }
 
     useEffect(() => {

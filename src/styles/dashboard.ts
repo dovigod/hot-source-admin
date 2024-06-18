@@ -9,6 +9,7 @@ export const roofStyle = stylex.create({
     top: '0px',
     left: '0px',
     width: '100%',
+    zIndex: '9999'
   },
   container: {
     width: '100%',

@@ -1,5 +1,6 @@
 "use client";
 import { Data } from "@/component/Common/Data";
+import { Division } from "@/component/Common/Division";
 import { FloatingButton } from "@/component/Common/FloatingButton";
 import { MeaningFul } from "@/component/Common/Meaningful";
 import { uniform } from "@/styles";
@@ -55,6 +56,7 @@ export default function ContentSpecificPage() {
               value="Sample content name"
               comment="화면에 보여질 컨텐츠의 이름이에요, 컨텐츠 이름은 한번 정하면 바꿀 수 없어요"
             />
+            <Division />
             <Data
               dataId="flowList"
               type="orderedList"
@@ -62,6 +64,7 @@ export default function ContentSpecificPage() {
               comment="각 컨텐츠가 가지고 있는 흐름들을 모아놨어요, 실제 화면에는 아래 정렬된 순서대로 나타나요"
               value={flowMock}
             />
+            <Division />
             <Data
               dataId="tags"
               type="keyword"
@@ -70,6 +73,7 @@ export default function ContentSpecificPage() {
               options={mock}
               comment="컨텐츠의 태그를 나타내요, 현재로썬 아무런 기능이 없어요"
             />
+            <Division />
             <Data
               dataId="lastUpdate"
               type="text"

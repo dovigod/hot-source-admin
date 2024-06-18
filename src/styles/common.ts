@@ -1,4 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
+import { border } from "./constants.stylex";
 
 export const layoutStyle = stylex.create({
   flex: {
@@ -168,6 +169,13 @@ export const layout = stylex.create({
     justifyContent: 'flex-end'
   },
 
+})
 
 
+export const breadcrumbStyle = stylex.create({
+  division: {
+    height: '0px',
+    width: '100%',
+    borderTop: border.basic
+  }
 })

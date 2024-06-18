@@ -1,5 +1,6 @@
 "use client";
 import { Data, DataHandler } from "@/component/Common/Data";
+import { Division } from "@/component/Common/Division";
 import { FloatingButton } from "@/component/Common/FloatingButton";
 import { MeaningFul } from "@/component/Common/Meaningful";
 import { uniform } from "@/styles";
@@ -50,7 +51,6 @@ export default function ContentSpecificEditPage() {
       data["flow"] = flowRef.current.getData();
       data["name"] = nameRef.current.getData();
       data["tags"] = tagsRef.current.getData();
-      console.log(data);
     }
   }
   return (
@@ -67,6 +67,7 @@ export default function ContentSpecificEditPage() {
               comment="화면에 보여질 컨텐츠의 이름이에요, 컨텐츠 이름은 한번 정하면 바꿀 수 없어요"
               editable
             />
+            <Division />
             <Data
               ref={flowRef}
               dataId="flowList"
@@ -76,6 +77,7 @@ export default function ContentSpecificEditPage() {
               value={flowMock}
               editable
             />
+            <Division />
             <Data
               ref={tagsRef}
               dataId="tags"
@@ -86,12 +88,14 @@ export default function ContentSpecificEditPage() {
               comment="컨텐츠의 태그를 나타내요, 현재로썬 아무런 기능이 없어요"
               editable
             />
+            <Division />
             <Data
               dataId="lastUpdate"
               type="text"
               label="마지막 업데이트"
               value="2024/06/17 - 09:00:00"
             />
+
             <input
               type="submit"
               {...uniform(dataStyle.saveButton)}

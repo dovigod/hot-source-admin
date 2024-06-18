@@ -177,7 +177,7 @@ export const keywordInputStyle = stylex.create({
     textAlign: 'center',
     cursor: 'pointer',
     border: 'none',
-    fontWeight: 'bold'
+    fontWeight: 'thin'
   },
   buttonSelected: {
     backgroundColor: color.primary,
@@ -220,7 +220,7 @@ export const orderedListInputStyle = stylex.create({
   },
   listContent: {
     lineHeight: '150%',
-    fontWeight: 'bold',
+    fontWeight: 'thin',
     outline: 'none',
     border: 'none',
     borderBottom: border.basic,
@@ -253,7 +253,7 @@ export const orderedListInputStyle = stylex.create({
     padding: '5px 12px',
     borderRadius: '4px',
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontWeight: 'thin',
     transition: transition.t_2,
     position: 'absolute',
     bottom: '0px',

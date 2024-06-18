@@ -14,6 +14,7 @@ interface DragNDropContext {
   data?: OrderedData[];
   setData: Dispatch<SetStateAction<OrderedData[] | undefined>>;
   currentItemId: MutableRefObject<string | null>;
+  targetItemId: MutableRefObject<string | null>;
 }
 
 interface Props {
@@ -30,10 +31,9 @@ interface OrderedData {
 export const DragNDropContext = createContext<DragNDropContext | null>(null);
 
 export const DragNDropProvider = ({ dataId, children, data }: Props) => {
-  const [dataList, setDataList] = useState<OrderedData[] | undefined>(
-    data?.sort((a, b) => b.index - a.index)
-  );
+  const [dataList, setDataList] = useState<OrderedData[] | undefined>(data);
   const currentItemId = useRef<string | null>(null);
+  const targetItemId = useRef<string | null>(null);
 
   return (
     <DragNDropContext.Provider
@@ -42,6 +42,7 @@ export const DragNDropProvider = ({ dataId, children, data }: Props) => {
         data: dataList,
         setData: setDataList,
         currentItemId,
+        targetItemId,
       }}
     >
       {children}
