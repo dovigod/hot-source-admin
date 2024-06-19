@@ -26,14 +26,17 @@ const mock = [
 const flowMock = [
   {
     value: "home",
+    dimension: "2:1",
     index: 1,
   },
   {
     value: "landing",
+    dimension: "1:1",
     index: 2,
   },
   {
     value: "login",
+    dimension: "2:3",
     index: 3,
   },
 ];
@@ -72,8 +75,8 @@ export default function ContentSpecificEditPage() {
               ref={flowRef}
               dataId="flowList"
               type="orderedList"
-              label="보유중인 플로우"
-              comment="각 컨텐츠가 가지고 있는 흐름들을 모아놨어요, 실제 화면에는 아래 정렬된 순서대로 나타나요"
+              label="시나리오 리스트"
+              comment="실제 화면에는 아래 정렬된 순서대로 나타나요, 순서를 바꾸고 싶은 사나리오들의 앞에 있는 버튼을 클릭해서 서로 순서를 바꿀 수 있어요"
               value={flowMock}
               editable
             />

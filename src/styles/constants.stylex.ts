@@ -38,6 +38,7 @@ export const fontSize = stylex.defineVars({
 })
 
 export const transition = stylex.defineVars({
+  t_5: "all 0.3s ease",
   t_3: "all 0.3s ease",
   t_2: "all 0.2s ease",
   t_1: "all 0.1s ease",
@@ -67,5 +68,6 @@ export const border = stylex.defineVars({
 })
 
 export const pseudo = stylex.defineVars({
-  contentItemTransform: 'translateX(0px)'
+  contentItemTransform: 'translateX(0px)',
+  cardHoverVar: 'scale(1)'
 })

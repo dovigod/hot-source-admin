@@ -60,7 +60,7 @@ export default function ContentSpecificPage() {
             <Data
               dataId="flowList"
               type="orderedList"
-              label="보유중인 플로우"
+              label="시나리오 리스트"
               comment="각 컨텐츠가 가지고 있는 흐름들을 모아놨어요, 실제 화면에는 아래 정렬된 순서대로 나타나요"
               value={flowMock}
             />

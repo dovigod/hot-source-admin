@@ -19,7 +19,7 @@ export const PAGE_INFO = {
   },
   '/dashboard/content/name/version': {
     major: (params: Params) => `${params.name}의 버전(${params.version})에 대한 페이지에요`,
-    comment: ''
+    comment: '컨텐츠의 해당 버전에 등록된 플로우와 레퍼런스 이미지들을 조회할 수 있어요'
   },
   '/dashboard/content/name/version/edit': {
     major: (params: Params) => `${params.name}의 버전(${params.version})을 업데이트 할 수 있는 페이지에요`,

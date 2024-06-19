@@ -1,8 +1,11 @@
 "use client";
+import { InvisibleIcon } from "@/component/icon/InvisibleIcon";
+import { SizeIcon } from "@/component/icon/SizeIcon";
+import { VisibleIcon } from "@/component/icon/VisibleIcon";
 /* eslint-disable react/display-name */
 import { uniform } from "@/styles";
 import { layout } from "@/styles/common";
-import { dataStyle, orderedListInputStyle } from "@/styles/data";
+import { orderedListInputStyle } from "@/styles/data";
 import {
   Dispatch,
   ForwardedRef,
@@ -19,6 +22,7 @@ export interface OrderedListOption {
   value: string;
   index: number;
   hidden?: boolean;
+  [key: string]: any;
 }
 
 interface OrderedListOptionWithRef extends OrderedListOption {
@@ -32,20 +36,23 @@ interface OrderedListInputProps {
 interface InputFieldProps {
   defaultValue: string;
   index: number;
-  referenceSetter: Dispatch<SetStateAction<OrderedListOptionWithRef[]>>;
+  setter: Dispatch<SetStateAction<OrderedListOptionWithRef[]>>;
   disabled?: boolean;
+  hidden: boolean;
 }
 export const OrderedListInput = forwardRef(
   (
     { dataId, disabled, value, ...rest }: OrderedListInputProps,
     getter: ForwardedRef<any>
   ) => {
-    value?.sort((a, b) => a.index - b.index);
+    value?.sort((a, b) => b.index - a.index);
     const [currentValue, setCurrentValue] = useState<
       OrderedListOptionWithRef[]
     >(value || []);
     const inputRef = useRef<HTMLInputElement>(null);
     const [showNewRow, setShowNewRow] = useState<boolean>(false);
+    const [swapQueue, setSwapQueue] = useState<OrderedListOptionWithRef[]>([]);
+    const total = currentValue.length;
 
     useImperativeHandle(
       getter,
@@ -55,6 +62,7 @@ export const OrderedListInput = forwardRef(
             const data = currentValue.reduce(
               (acc: OrderedListOption[], val) => {
                 acc.push({
+                  ...val,
                   hidden: val.hidden,
                   index: val.index,
                   value: val.ref?.current!.value || "",
@@ -76,7 +84,9 @@ export const OrderedListInput = forwardRef(
         if (value === "") {
           return;
         }
-        const lastIdx = currentValue[currentValue.length - 1].index;
+        const lastIdx = currentValue.sort((a, b) => a.index - b.index)[
+          currentValue.length - 1
+        ].index;
         const newListIdx = lastIdx + 1;
         setCurrentValue((current) => {
           const newValue = [
@@ -95,33 +105,67 @@ export const OrderedListInput = forwardRef(
     function showAdditionalListRow() {
       setShowNewRow((current) => !current);
     }
+    function stageToSwap(data: OrderedListOptionWithRef) {
+      if (disabled) return;
+      const onStage = swapQueue.some(
+        (v) => v.index === data.index && v.value === data.value
+      );
+      if (onStage) {
+        return;
+      }
+      setSwapQueue([...swapQueue, data]);
+    }
+
+    useEffect(() => {
+      if (swapQueue.length === 2) {
+        const tmp = swapQueue[0].index;
+        swapQueue[0].index = swapQueue[1].index;
+        swapQueue[1].index = tmp;
+
+        setCurrentValue((cur) => [...cur]);
+        setSwapQueue([]);
+      }
+    }, [swapQueue, currentValue]);
 
     return (
       <div {...uniform(layout.cflex22, orderedListInputStyle.container)}>
         <ol {...uniform(layout.cflex11, orderedListInputStyle.listContainer)}>
-          {currentValue.map((data) => {
-            return (
-              <li
-                key={data.value + data.index}
-                {...uniform(layout.flex44, orderedListInputStyle.list)}
-              >
-                <span
-                  {...uniform(layout.flex55, orderedListInputStyle.listIndex)}
+          {currentValue
+            .sort((a, b) => b.index - a.index)
+            .map((data) => {
+              const onSwapQueue = swapQueue.some(
+                (v) => v.index === data.index && v.value === data.value
+              );
+              const index = total - data.index + 1;
+              return (
+                <li
+                  key={data.value + data.index}
+                  {...uniform(layout.flex44, orderedListInputStyle.list)}
                 >
-                  <span {...uniform(orderedListInputStyle.listIndexText)}>
-                    {data.index}
+                  <span
+                    {...uniform(
+                      layout.flex55,
+                      orderedListInputStyle.listIndex,
+                      disabled ? null : orderedListInputStyle.clickableIdx,
+                      onSwapQueue ? orderedListInputStyle.indicateSwap : null
+                    )}
+                    onClick={() => stageToSwap(data)}
+                  >
+                    <span {...uniform(orderedListInputStyle.listIndexText)}>
+                      {index}
+                    </span>
                   </span>
-                </span>
 
-                <InputField
-                  defaultValue={data.value}
-                  referenceSetter={setCurrentValue}
-                  index={data.index}
-                  disabled={disabled}
-                ></InputField>
-              </li>
-            );
-          })}
+                  <InputField
+                    defaultValue={data.value}
+                    setter={setCurrentValue}
+                    index={data.index}
+                    disabled={disabled}
+                    hidden={!!data.hidden}
+                  ></InputField>
+                </li>
+              );
+            })}
         </ol>
         {showNewRow && (
           <div {...uniform(orderedListInputStyle.newRow)}>
@@ -146,9 +190,6 @@ export const OrderedListInput = forwardRef(
             +
           </button>
         )}
-
-        {/* add button */}
-        {/* maybe needs limit? */}
       </div>
     );
   }
@@ -156,29 +197,61 @@ export const OrderedListInput = forwardRef(
 
 function InputField({
   defaultValue,
-  referenceSetter,
+  setter,
   index,
   disabled,
+  hidden,
 }: InputFieldProps) {
   const ref = useRef<HTMLInputElement>(null);
   // @NOTE careful of deps
   useEffect(() => {
     if (ref.current) {
-      referenceSetter((current) => {
+      setter((current) => {
         const newList = [...current];
         const tagetIdx = newList.findIndex((val) => val.index === index);
         newList[tagetIdx].ref = ref;
         return newList;
       });
     }
-  }, [ref, index, referenceSetter]);
+  }, [ref, index, setter]);
+
+  function onHidden() {
+    setter((current) => {
+      const newList = [...current];
+      const target = newList.find(
+        (item) => item.value === defaultValue && item.index === index
+      );
+      if (target) {
+        target.hidden = !hidden;
+      }
+      return newList;
+    });
+  }
   return (
-    <input
-      type="text"
-      ref={ref}
-      {...uniform(orderedListInputStyle.listContent)}
-      defaultValue={defaultValue}
-      disabled={disabled}
-    ></input>
+    <div {...uniform(orderedListInputStyle.inputWrapper)}>
+      <input
+        type="text"
+        ref={ref}
+        {...uniform(orderedListInputStyle.listContent)}
+        defaultValue={defaultValue}
+        disabled={disabled}
+      />
+
+      <div {...uniform(orderedListInputStyle.options)}>
+        <button
+          {...uniform(orderedListInputStyle.optionButton)}
+          onClick={onHidden}
+        >
+          {hidden ? (
+            <InvisibleIcon {...uniform(orderedListInputStyle.option)} />
+          ) : (
+            <VisibleIcon {...uniform(orderedListInputStyle.option)} />
+          )}
+        </button>
+        <button {...uniform(orderedListInputStyle.optionButton)}>
+          <SizeIcon {...uniform(orderedListInputStyle.option)} />
+        </button>
+      </div>
+    </div>
   );
 }

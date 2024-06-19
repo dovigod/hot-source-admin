@@ -177,5 +177,8 @@ export const breadcrumbStyle = stylex.create({
     height: '0px',
     width: '100%',
     borderTop: border.basic
+  },
+  commonLayoutPadding: {
+    padding: '32px'
   }
 })

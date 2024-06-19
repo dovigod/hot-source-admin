@@ -224,6 +224,7 @@ export const orderedListInputStyle = stylex.create({
     outline: 'none',
     border: 'none',
     borderBottom: border.basic,
+    fontSize: fontSize.mediumd3,
     textAlign: 'center'
   },
   addButton: {
@@ -262,6 +263,42 @@ export const orderedListInputStyle = stylex.create({
   },
   newRow: {
     position: 'relative'
-  }
+  },
+  clickableIdx: {
+    cursor: 'pointer',
+    transition: transition.t_1,
+    backgroundColor: {
+      default: color.secondary,
+      ':hover': color.supporting
+    }
+  },
+  indicateSwap: {
+    backgroundColor: color.primary
+  },
+  inputWrapper: {
+    display: 'flex',
+    alignItems: 'flex-end',
+    gap: '4px'
+  },
+  options: {
+    display: 'flex',
+    gap: '2px'
+  },
 
+  optionButton: {
+    backgroundColor: 'transparent',
+    outline: 'none',
+    border: 'none',
+    padding: '0px',
+    margin: '0px',
+    cursor: 'pointer',
+    lineHeight: '0%'
+  },
+  option: {
+    fill: color.secondary,
+    opacity: {
+      default: '0.7',
+      ':hover': '1'
+    }
+  }
 })

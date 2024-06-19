@@ -9,7 +9,8 @@ export const roofStyle = stylex.create({
     top: '0px',
     left: '0px',
     width: '100%',
-    zIndex: '9999'
+    minWidth: '790px',
+    zIndex: '9999',
   },
   container: {
     width: '100%',
@@ -116,7 +117,7 @@ export const dashboardStyle = stylex.create({
   contentLayout: {
     width: '100%',
     backgroundColor: 'white',
-    // padding: '32px 32px',
+    minWidth: '728px',
     borderRadius: '8px',
     boxShadow: `2px 2px 6px ${shadow.black05}, -2px -2px 6px ${shadow.black05}`,
     border: border.basicW2
