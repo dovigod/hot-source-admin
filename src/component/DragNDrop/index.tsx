@@ -13,24 +13,32 @@ interface DragNDropContainerProps extends PropsWithChildren {
   dataId: string;
   data: any[];
   render: any;
+  additionalProps?: Record<string, any>;
 }
 
 export function DragNDrop({
   dataId,
   data,
   render,
+  additionalProps,
   ...props
 }: DragNDropContainerProps) {
   return (
-    <div className="dragNdrop-container" {...props}>
-      <DragNDropProvider dataId={dataId} data={data}>
-        <View Component={render} />
-      </DragNDropProvider>
-    </div>
+    // <div className="dragNdrop-container" {...props}>
+    <DragNDropProvider dataId={dataId} data={data}>
+      <View Component={render} additionalProps={additionalProps} />
+    </DragNDropProvider>
+    // </div>
   );
 }
 
-function View({ Component }: { Component: any }) {
+function View({
+  Component,
+  additionalProps,
+}: {
+  Component: any;
+  additionalProps: any;
+}) {
   const context = useContext(DragNDropContext);
 
   if (!context) {
@@ -42,6 +50,13 @@ function View({ Component }: { Component: any }) {
     data &&
     data
       .sort((a, b) => b.index - a.index)
-      .map((d) => <Component editable key={`Drag-n-drop-${d.id}`} {...d} />)
+      .map((d) => (
+        <Component
+          editable
+          key={`Drag-n-drop-${d.id}`}
+          {...d}
+          {...additionalProps}
+        />
+      ))
   );
 }

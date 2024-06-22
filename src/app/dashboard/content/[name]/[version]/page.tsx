@@ -154,7 +154,6 @@ const Senario = ({ name, flows, dimension, hidden }: Senario) => {
         </span>
         <div {...uniform(cardContainerStyle.flowDecorRight)} />
       </div>
-      {/* {!open ? <div {...uniform(cardContainerStyle.shadow)}></div> : null} */}
 
       <div
         {...uniform(

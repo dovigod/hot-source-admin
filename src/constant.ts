@@ -23,7 +23,7 @@ export const PAGE_INFO = {
   },
   '/dashboard/content/name/version/edit': {
     major: (params: Params) => `${params.name}의 버전(${params.version})을 업데이트 할 수 있는 페이지에요`,
-    comment: '해당 버전에 해당하는 레퍼런스를 추가, 삭제, 수정, 정렬방식을 변화시킬 수 있어요'
+    comment: '해당 시나리오 버전에 해당하는 플로우를 추가, 삭제, 수정, 정렬방식을 변화시킬 수 있어요'
   }
 }
 

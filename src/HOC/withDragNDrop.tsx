@@ -88,6 +88,7 @@ export function withDragNDrop(Origin: ForwardRefExoticComponent<any>) {
 
     useEffect(() => {
       if (ref.current) {
+        console.log(ref.current);
         ref.current.removeEventListener("dragstart", onDragStart);
         ref.current.removeEventListener("dragover", onDragOver);
         ref.current.removeEventListener("dragend", onDragEnd);
