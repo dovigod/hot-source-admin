@@ -1,6 +1,5 @@
 "use client";
 import { InvisibleIcon } from "@/component/icon/InvisibleIcon";
-import { SizeIcon } from "@/component/icon/SizeIcon";
 import { VisibleIcon } from "@/component/icon/VisibleIcon";
 /* eslint-disable react/display-name */
 import { uniform } from "@/styles";
@@ -216,6 +215,9 @@ function InputField({
   }, [ref, index, setter]);
 
   function onHidden() {
+    if (disabled) {
+      return;
+    }
     setter((current) => {
       const newList = [...current];
       const target = newList.find(
@@ -242,14 +244,11 @@ function InputField({
           {...uniform(orderedListInputStyle.optionButton)}
           onClick={onHidden}
         >
-          {hidden ? (
+          {disabled ? null : hidden ? (
             <InvisibleIcon {...uniform(orderedListInputStyle.option)} />
           ) : (
             <VisibleIcon {...uniform(orderedListInputStyle.option)} />
           )}
-        </button>
-        <button {...uniform(orderedListInputStyle.optionButton)}>
-          <SizeIcon {...uniform(orderedListInputStyle.option)} />
         </button>
       </div>
     </div>

@@ -1,7 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
+import { InspectorContext } from "@/context/InspectorContext";
 import { uniform } from "@/styles";
 import { layout } from "@/styles/common";
 import { inspectorStyle } from "@/styles/inspector";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 interface InspectorProps {
   imageUrl: string;
@@ -11,50 +13,47 @@ interface InspectorProps {
 const BASIC_SCALE_FACTOR = 2;
 
 export function Inspector({ imageUrl, dimension }: InspectorProps) {
+  const { closeInspector } = useContext(InspectorContext)!;
   const imgRef = useRef<HTMLImageElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState<number>(1);
   const [size, setSize] = useState<any>(null);
-  const [inspectionMode, setInspectionMode] = useState<boolean>(false);
 
   useEffect(() => {
     if (imgRef.current && stageRef.current) {
       const img = imgRef.current;
       const stage = stageRef.current;
+      const ratioToStage = {
+        width: 0.85,
+        height: 0.9,
+      };
       // resize img
-
-      img.style.aspectRatio = dimension;
-
       const [wr, hr] = dimension.split("/").map((v) => Number(v));
-
+      const stageWidth = stage.clientWidth;
+      const stageHeight = stage.clientHeight;
       if (wr < hr) {
         const imgDefaultWidth = Math.max(
           600,
-          Math.min(window.innerWidth * 0.7, window.innerHeight * 0.8)
+          Math.min(
+            stageWidth * ratioToStage.width,
+            stageHeight * ratioToStage.height
+          )
         );
-
         const estimateHeight = (imgDefaultWidth / wr) * hr;
-        if (estimateHeight > window.innerHeight * 0.7) {
-          img.style.height = window.innerHeight * 0.7 + "px";
-          img.style.width = ((window.innerHeight * 0.7) / hr) * wr + "px";
+        if (estimateHeight > stageHeight * ratioToStage.width) {
+          img.style.height = stageHeight * ratioToStage.width + "px";
+          img.style.width =
+            ((stageHeight * ratioToStage.width) / hr) * wr + "px";
         }
       }
-
       stage.style.width = img.clientWidth + "px";
       stage.style.height = img.clientHeight + "px";
-
       setSize({
         width: img.clientWidth,
         height: img.clientHeight,
       });
     }
   }, [imgRef, stageRef, imageUrl]);
-
-  useEffect(() => {
-    if (inspectionMode) {
-    } else {
-    }
-  }, [inspectionMode]);
 
   useEffect(() => {
     if (size) {
@@ -70,12 +69,26 @@ export function Inspector({ imageUrl, dimension }: InspectorProps) {
     <div {...uniform(layout.cflex55, inspectorStyle.background)}>
       <section {...uniform(inspectorStyle.section)}>
         <div ref={stageRef} {...uniform(inspectorStyle.stage)}>
-          <img ref={imgRef} src={imageUrl} {...uniform(inspectorStyle.image)} />
+          <img
+            ref={imgRef}
+            src={imageUrl}
+            alt="inspector image"
+            {...uniform(inspectorStyle.image(dimension))}
+          />
         </div>
-        <div onClick={() => setInspectionMode((cur) => !cur)}>
-          inspection mode
+        <div {...uniform(inspectorStyle.infoStage, layout.cflex44)}>
+          <div {...uniform(layout.cflex11, inspectorStyle.info)}>
+            <span {...uniform(inspectorStyle.label)}> label </span>
+            <span {...uniform(inspectorStyle.value)}> value </span>
+
+            <button
+              {...uniform(inspectorStyle.closeButton)}
+              onClick={closeInspector}
+            >
+              x
+            </button>
+          </div>
         </div>
-        <div onClick={() => setScale((cur) => cur * 2)}>options!!!!</div>
       </section>
     </div>
   );

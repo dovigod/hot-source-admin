@@ -4,6 +4,7 @@ import { LayoutProps } from "../../../../../.next/types/app/layout";
 import { contentSpecificLayoutStyle } from "@/styles/contentSpecificPage";
 import { DropdownInput } from "@/component/Common/input/DropdownInput";
 import { useParams, usePathname, useRouter } from "next/navigation";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 const mockData = [
   {
@@ -33,7 +34,9 @@ export default function ContentSpecificLayout({
   const pathname = usePathname();
   const pathSegments = pathname.split("/");
   const pathParams = useParams();
-  const currentVersion = pathParams["version"] as string | undefined;
+  const [currentVersion, setCurrentVersion] = useState<string | undefined>(
+    undefined
+  );
   const version = "";
 
   //@TODO if currentVersion not in actual options list , -> redirect to home
@@ -55,6 +58,15 @@ export default function ContentSpecificLayout({
     }
     router.push(pathSegments.join("/"));
   }
+
+  useLayoutEffect(() => {
+    if (!("version" in pathParams)) {
+      setCurrentVersion(undefined);
+    } else {
+      setCurrentVersion(pathParams["version"] as string);
+    }
+  }, [pathParams]);
+
   return (
     <div {...uniform(contentSpecificLayoutStyle.container)}>
       <div {...uniform(contentSpecificLayoutStyle.versionSelector)}>
@@ -62,6 +74,8 @@ export default function ContentSpecificLayout({
           dataId="$versionSelector"
           placeholder="특정 버전을 선택해 주세요"
           options={mockData}
+          // force rerender
+          key={`version-selector::v=${currentVersion}`}
           value={currentVersion}
           onSelection={onVersionSelect}
         />

@@ -4,7 +4,8 @@ import { border, color, fontSize, pseudo, transition } from './constants.stylex'
 
 export const cardContainerStyle = stylex.create({
   container: {
-    padding: '20px 0px 40px 0px'
+    padding: '20px 0px 40px 0px',
+    position: 'relative'
   },
   flowLabelWrapper: {
     display: 'flex',
@@ -47,6 +48,14 @@ export const cardContainerStyle = stylex.create({
     height: '0px',
     borderTop: border.secondaryW2,
     transform: 'translateY(-50%)'
+  },
+  shadow: {
+    width: '100%',
+    height: '20px',
+    background: 'linear-gradient(rgba(0,0,0,0.5), 10% , transparent)',
+    position: 'absolute',
+    top: '55px',
+    left: '0px'
   }
 })
 
@@ -58,16 +67,21 @@ export const cardGridStyle = stylex.create({
     gridTemplateColumns: 'repeat(4, 1fr)',
     gridColumnGap: '16px',
     gridRowGap: '16px',
-    transition: transition.t_5,
     overflow: 'hidden',
-    maxHeight: '100%'
+    maxHeight: '100%',
+    // filter: 'brightness(0.5)'
+    background: 'linear-gradient(transparent, 50%, rgba(0,0,0,0.4))'
 
   },
   open: {
-    maxHeight: '1000vh'
+    maxHeight: '1000vh',
+    transition: 'none',
+    background: 'none'
   },
   close: {
-    maxHeight: '0'
+    transition: 'none',
+    maxHeight: '100px',
+    pointerEvents: 'none'
   }
 })
 export const cardStyle = stylex.create({
@@ -103,5 +117,6 @@ export const cardStyle = stylex.create({
     fontSize: fontSize.smallu4,
     color: color.secondary,
     opacity: 1
-  }
+  },
+
 })
